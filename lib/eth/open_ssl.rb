@@ -63,7 +63,7 @@ module Eth
 
     if version >= VERSION_1_1_0_NUM
       # Initialization procedure for the library was changed in OpenSSL 1.1.0
-      attach_function :OPENSSL_init_ssl, [:uint64, :pointer], :int
+      ### patch ### attach_function :OPENSSL_init_ssl, [:uint64, :pointer], :int
     else
       attach_function :SSL_library_init, [], :int
       attach_function :ERR_load_crypto_strings, [], :void
@@ -225,10 +225,10 @@ module Eth
       def init_ffi_ssl
         return if @ssl_loaded
         if version >= VERSION_1_1_0_NUM
-          OPENSSL_init_ssl(
-            OPENSSL_INIT_LOAD_SSL_STRINGS | OPENSSL_INIT_ENGINE_ALL_BUILTIN,
-            nil
-          )
+          ### patch ### OPENSSL_init_ssl(
+          ### patch ###   OPENSSL_INIT_LOAD_SSL_STRINGS | OPENSSL_INIT_ENGINE_ALL_BUILTIN,
+          ### patch ###   nil
+          ### patch ### )
         else
           SSL_library_init()
           ERR_load_crypto_strings()
